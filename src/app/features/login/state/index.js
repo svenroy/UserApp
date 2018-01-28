@@ -5,7 +5,7 @@ import * as types from "./types";
 
 export {
     actions,
-    types
+    types    
 };
 
 export default createReducer;

@@ -25,7 +25,6 @@ class LoginContainer extends Component {
     }
 
     render() {
-        console.log(this.props);
         return(<LoginView 
             handleSubmit={this.handleSubmit.bind(this)}
             {...this.props}/>);
