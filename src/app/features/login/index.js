@@ -1,5 +1,10 @@
+import createReducer from './state';
 import view from './view';
 
+const route = '/login';
 export {
-    view
+    view,
+    route
 };
+
+export default createReducer;
