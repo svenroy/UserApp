@@ -1,7 +1,7 @@
 import createReducer, { selectors } from './state';
 import view from './view';
 
-const route = '/login';
+const route = '/signup';
 export {
     view,
     route,

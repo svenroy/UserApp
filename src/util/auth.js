@@ -1,44 +1,44 @@
 import guard from './guard';
 
-const AuthUserTokenKey = 'authUserToken';
+const AuthIdTokenKey = 'authIdToken';
 const AuthUserNameKey = 'authUserName';
-const AuthUserIDKey = 'authUserID';
+const AuthAccessTokenKey = 'authAccessToken';
 
 const getAuthData = () => {
     return {
-        userToken: global.sessionStorage.getItem(AuthUserTokenKey),
+        idToken: global.sessionStorage.getItem(AuthIdTokenKey),
         userName: global.sessionStorage.getItem(AuthUserNameKey),
-        userId: global.sessionStorage.getItem(AuthUserIDKey)
+        accessToken: global.sessionStorage.getItem(AuthAccessTokenKey)
     };
 };
 
-export const setAuthData = (userName, userToken, userId) => {
-    guard(userToken, "userToken");
-    guard(userName, "userName");
-    guard(userId, "userId");
+export const setAuthData = (idToken, username, accessToken) => {
+    guard(idToken, "idToken");
+    guard(username, "userName");
+    guard(accessToken, "accessToken");
 
-    global.sessionStorage.setItem(AuthUserTokenKey, userToken);
-    global.sessionStorage.setItem(AuthUserNameKey, userName);
-    global.sessionStorage.setItem(AuthUserIDKey, userId);
+    global.sessionStorage.setItem(AuthIdTokenKey, idToken);
+    global.sessionStorage.setItem(AuthUserNameKey, username);
+    global.sessionStorage.setItem(AuthAccessTokenKey, accessToken);
 };
 
 export const deleteAuthData = () => {
-    global.sessionStorage.removeItem(AuthUserTokenKey);
+    global.sessionStorage.removeItem(AuthIdTokenKey);
     global.sessionStorage.removeItem(AuthUserNameKey);
-    global.sessionStorage.removeItem(AuthUserIDKey);
+    global.sessionStorage.removeItem(AuthAccessTokenKey);
 };
 
 export const isAuthenticated = () => {
-    return !!getAuthData().userToken;
+    return !!getAuthData().accessToken;
 };
 
 export const getUsername = () => {
     return getAuthData().userName;
 };
 
-export const getUserId = () => {
+/*export const getUserId = () => {
     return getAuthData().userId;
-};
+};*/
 
 export const getAuthHeaders = () => {
     let token = getAuthData().userToken;
@@ -55,6 +55,6 @@ global.utils = {
     setAuthData,
     deleteAuthData,
     isAuthenticated,
-    getUserId,
+    //getUserId,
     getUsername
 };
