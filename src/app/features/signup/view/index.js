@@ -22,7 +22,8 @@ class SignUpContainer extends Component {
         this.props.confirm(this.state.email, this.state.confirmationCode);
     }
 
-    handleResendConfirmation(){
+    handleResendConfirmation(e){
+        e.preventDefault();
         this.props.resendConfirmation(this.state.email);
     }
 
@@ -79,7 +80,7 @@ const ConfirmationView = ({
             <label htmlFor="confirmationCode" className="sr-only">Email address</label>
             <input id="confirmationCode"  name="confirmationCode" value={confirmationCode} onChange={e => handleChange(e)} type="text" className="form-control" placeholder="Confirmation code" required autoFocus />
             <button className="btn btn-lg btn-primary btn-block" type="submit">Confirm</button>
-            <a href="#" onClick={handleResendConfirmation}>Resend confirmation email</a>
+            <a href="/resendconfirmation" onClick={handleResendConfirmation}>Resend confirmation email</a>
         </form>        
     </div>;
 }

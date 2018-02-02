@@ -6,5 +6,5 @@ const getDuckState = (state, props) => {
 
 export const getUserAuthenticated = createSelector(
     [getDuckState],
-    (authentication) => global.utils.isAuthenticated()
+    (authentication) => authentication.validUserSession
 );

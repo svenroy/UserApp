@@ -2,7 +2,8 @@ import * as types from './types';
 
 const defaultState = {
     attemptedLogin: false,
-    loginSucceeded: false
+    loginSucceeded: false,
+    validUserSession: false
 };
 
 export default () => (state = defaultState, action = {}) => {
@@ -13,6 +14,12 @@ export default () => (state = defaultState, action = {}) => {
         case types.LOGIN_FAILURE:
             return {...state, loginSucceeded: false, attemptedLogin: true};
 
+        case types.SESSION_VALID:
+            return {...state, validUserSession: true};
+
+        case types.SIGNOUT_SUCCESS:
+            return defaultState;
+            
         default:
             return state;
     }

@@ -1,6 +1,31 @@
-import guard from './guard';
+//import guard from './guard';
+//import appConfig from '../config/apiConfig';
 
-const AuthIdTokenKey = 'authIdToken';
+const UserTokenKey = "dashboard_user_token";
+export const getAuthHeaders = () => {
+    let token = global.sessionStorage.getItem(UserTokenKey);
+    let headers = {};
+    if (token) {
+        headers.Authorization = `Bearer ${token}`;
+    }    
+    return headers;
+};
+
+export const setUserToken = userToken => {
+    global.sessionStorage.setItem(UserTokenKey, userToken);
+};
+
+export const deleteAuthData = () => {
+    global.sessionStorage.removeItem(UserTokenKey);
+};
+
+global.utils = {
+    ...global.utils,
+    setUserToken,
+    deleteAuthData
+};
+
+/*const AuthIdTokenKey = 'authIdToken';
 const AuthUserNameKey = 'authUserName';
 const AuthAccessTokenKey = 'authAccessToken';
 
@@ -36,25 +61,7 @@ export const getUsername = () => {
     return getAuthData().userName;
 };
 
-/*export const getUserId = () => {
+export const getUserId = () => {
     return getAuthData().userId;
 };*/
 
-export const getAuthHeaders = () => {
-    let token = getAuthData().userToken;
-    let headers = {};
-    if (token) {
-        headers.Authorization = `Bearer ${token}`;
-    }
-
-    return headers;
-};
-
-global.utils = {
-    ...global.utils,
-    setAuthData,
-    deleteAuthData,
-    isAuthenticated,
-    //getUserId,
-    getUsername
-};
