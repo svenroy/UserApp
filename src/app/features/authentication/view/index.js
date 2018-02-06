@@ -9,8 +9,8 @@ class LoginContainer extends Component {
         super(props);
 
         this.state = {
-            password: "",
-            email: ""
+            password: "Abc123!!",
+            email: "roystonyinkore@gmail.com"
         };
     }
 
@@ -27,18 +27,19 @@ class LoginContainer extends Component {
         return(<LoginView 
             handleSubmit={this.handleSubmit.bind(this)}
             handleChange={this.handleChange.bind(this)}
-            {...this.props}/>);
+            {...this.props}
+            {...this.state}/>);
     }    
 }
 
-const LoginView = ({handleSubmit, attemptedLogin, loginSucceeded, handleChange}) => {
+const LoginView = ({handleSubmit, attemptedLogin, loginSucceeded, handleChange, email, password}) => {
     return <div className="container">
     <form className="form-signin" onSubmit={e => { e.preventDefault(); handleSubmit(); }}>
         <h2 className="form-signin-heading">Please sign in</h2>
         <label htmlFor="inputEmail" className="sr-only">Email address</label>
-        <input name="email" onChange={(e) => handleChange(e)} type="email" id="inputEmail" className="form-control" placeholder="Email address" required autoFocus />
+        <input name="email" value={email} onChange={(e) => handleChange(e)} type="email" id="inputEmail" className="form-control" placeholder="Email address" required autoFocus />
         <label htmlFor="inputPassword" className="sr-only">Password</label>
-        <input name="password" onChange={(e) => handleChange(e)} type="password" id="inputPassword" className="form-control" placeholder="Password" required />
+        <input name="password" value={password} onChange={(e) => handleChange(e)} type="password" id="inputPassword" className="form-control" placeholder="Password" required />
         <div className="checkbox">
         <label>
             <input type="checkbox" value="remember-me" /> Remember me

@@ -1,5 +1,5 @@
 {
-  "name": "user-app",
+  "name": "dashboard.user-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -7,6 +7,7 @@
     "aws-sdk": "^2.188.0",
     "bootstrap": "^4.0.0",
     "history": "^4.7.2",
+    "immutable": "^3.8.2",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.3.1",
     "node-sass-chokidar": "0.0.3",

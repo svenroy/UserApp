@@ -1,13 +1,17 @@
 import * as types from './types';
 
 import appConfig from "../../../../config/aws";
-import AWS, {Config, CognitoIdentityCredentials} from "aws-sdk";
+import AWS, {
+    CognitoIdentityCredentials
+} from "aws-sdk";
+
 import {
   CognitoUserPool,
-  //CognitoUserAttribute,
   CognitoUser,
   AuthenticationDetails
 } from "amazon-cognito-identity-js";
+
+import constants from '../../../../config/constants';
 
 const userPool = new CognitoUserPool({
     UserPoolId: appConfig.UserPoolId,
@@ -24,8 +28,9 @@ const loginFailure = () => ({
     when: Date.now()
 });
 
-const validSession = () => ({
-    type: types.SESSION_VALID
+const validSession = role => ({
+    type: types.SESSION_VALID,
+    role
 });
 
 export const login = (email, password) => (dispatch, getState) => {   
@@ -45,20 +50,24 @@ export const login = (email, password) => (dispatch, getState) => {
 
     var cognitoUser = new CognitoUser(userData);
     cognitoUser.authenticateUser(authenticationDetails, {
-        onSuccess: (result) => {          
+        onSuccess: (result) => {     
+            console.log(result);     
             AWS.config.region = appConfig.region;
 
-            const token = `cognito-idp.${appConfig.region}.amazonaws.com/${appConfig.UserPoolId}`;
+            const tokenKey = `cognito-idp.${appConfig.region}.amazonaws.com/${appConfig.UserPoolId}`;
 
-            Config.credentials = new CognitoIdentityCredentials({
+            AWS.config.credentials = new CognitoIdentityCredentials({
                 IdentityPoolId : appConfig.IdentityPoolId,
                 Logins : {
-                    [token] : result.getIdToken().getJwtToken()
+                    [tokenKey] : result.getIdToken().getJwtToken()
                 }
             });
-            
-            Config.credentials.refresh((error) => {
+
+            console.log(AWS.config.credentials);
+
+            AWS.config.credentials.refresh((error) => {
                 if (error) {
+                    console.log(error);
                     dispatch(loginFailure());
                 } else {
                     dispatch(loginSuccessful());
@@ -74,7 +83,7 @@ export const login = (email, password) => (dispatch, getState) => {
     });
 };
 
-export const checkUserSession = () => (dispatch, getState) => {
+export const checkUserSession = () => (dispatch, getState, {httpVerbs, apiEndPoint}) => {
     var cognitoUser = userPool.getCurrentUser();
 
     if (cognitoUser != null) {
@@ -82,19 +91,31 @@ export const checkUserSession = () => (dispatch, getState) => {
             if (err) {
                 return;
             }
-            global.utils.setUserToken(session.getIdToken().getJwtToken());
-            dispatch(validSession());
+            
+            cognitoUser.getUserAttributes((err, result) => {
+                if (err) {
+                    return;
+                }
+                var attr = result.find(d => d.getName() === constants.awsUserAttributes.role);
+
+                if(attr){
+                    global.utils.setUserToken(session.getIdToken().getJwtToken());
+                    dispatch(loginSuccessful());
+                    dispatch(validSession(attr.getValue()));                    
+                }
+            });
         });
     }
 }
 
-export const signOut = () => (dispatch, getState) => {
+export const signOut = () => {
     var cognitoUser = userPool.getCurrentUser();
 
     if (cognitoUser != null) {
         cognitoUser.signOut();
+        AWS.config.credentials.clearCachedId();
         global.utils.deleteAuthData();
         
-        dispatch({type: types.SIGNOUT_SUCCESS});
+        window.location.href = "/";
     }
 };

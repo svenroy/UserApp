@@ -18,12 +18,16 @@ import {
   route as loginRoute,
   selectors as authenticatonSelectors,
   actions as loginActions
-} from '../features/login';
+} from '../features/authentication';
 
 import {
   view as DashboardView, 
   route as dashboardRoute
-} from '../features/dashboard';
+} from '../features/user-dashboard';
+
+import {
+  view as ClientDashboardView, 
+} from '../features/client-dashboard';
 
 const homeRoute = "/";
 
@@ -43,13 +47,16 @@ const NavigationBar = ({authenticated, handleSignOut}) =>
     </div>
   </nav>;
 
-class App extends Component {
+  const Dashboard = () => {
 
+  }
+
+class App extends Component {
   constructor(props){
     super(props);
-
     autoBind(this);
   }
+
   componentDidMount(){
     this.props.actions.login.checkUserSession();
   }

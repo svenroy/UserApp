@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import createLoginReducer from '../features/login';
+import createLoginReducer from '../features/authentication';
 import createSignUpReducer from '../features/signup';
 
 export default function createReducer() {

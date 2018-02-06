@@ -10,10 +10,10 @@ const defaultState = {
 
 export default () => (state = defaultState, action = {}) => {
     switch (action.type) {
-        case types.REGISTER_SUCCESSFUL:
+        case types.REGISTER_USER_SUCCESS:
             return {...state, signedUp: true, attemptedSignUp: true, username: action.username};
 
-        case types.REGISTER_UNSUCCESSFUL:
+        case types.REGISTER_USER_FAILURE:
             return {...state, signedUp: false, attemptedSignUp: true};
 
         case types.REGISTER_CONFIRMATION_SUCCESS:
