@@ -6,7 +6,7 @@ import * as duck from '../state';
 class DashboardContainer extends Component {
 
     componentDidMount(){
-        //this.props.loadUserServices();
+        this.props.loadUserServices();
     }
 
     render(){

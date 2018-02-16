@@ -16,7 +16,7 @@ import './style.css';
 import {
   view as LoginView, 
   route as loginRoute,
-  selectors as authenticatonSelectors,
+  selectors as authenticationSelectors,
   actions as loginActions
 } from '../features/authentication';
 
@@ -47,9 +47,13 @@ const NavigationBar = ({authenticated, handleSignOut}) =>
     </div>
   </nav>;
 
-  const Dashboard = () => {
-
+const Dashboard = ({role}) => {
+  if(role ===  "client"){
+    return <ClientDashboardView />;
+  } else{
+    return <DashboardView />;
   }
+}
 
 class App extends Component {
   constructor(props){
@@ -66,13 +70,13 @@ class App extends Component {
   }
 
   render(){
-    const {registrationConfirmed, authenticated} = this.props;
+    const {registrationConfirmed, authenticated, role} = this.props;
     return <div>
       <NavigationBar authenticated={authenticated} handleSignOut={this.handleSignOut} />
       <Route exact path={homeRoute} render={() => <Redirect to={dashboardRoute} />}/>
 
       <Route path={dashboardRoute} render={() => (authenticated 
-        ? <DashboardView /> 
+        ? <Dashboard role={role} /> 
         : <Redirect to={loginRoute}/>)}/>
 
       <Route path={loginRoute} render={() => (authenticated
@@ -91,7 +95,8 @@ export default withRouter(
   connect(
       (state, ownProps) => ({
         registrationConfirmed: signUpSelectors.getRegistrationConfirmation(state, ownProps),
-        authenticated: authenticatonSelectors.getUserAuthenticated(state, ownProps),
+        authenticated: authenticationSelectors.getUserAuthenticated(state, ownProps),
+        role: authenticationSelectors.getUserRole(state, ownProps),
         history: ownProps.history
       }), 
       (dispatch, ownProps) => {

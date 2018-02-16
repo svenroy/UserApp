@@ -8,3 +8,8 @@ export const getUserAuthenticated = createSelector(
     [getDuckState],
     (authentication) => authentication.validUserSession
 );
+
+export const getUserRole = createSelector(
+    [getDuckState],
+    (authentication) => authentication.user.role
+);

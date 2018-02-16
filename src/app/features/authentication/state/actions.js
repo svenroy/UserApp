@@ -51,7 +51,6 @@ export const login = (email, password) => (dispatch, getState) => {
     var cognitoUser = new CognitoUser(userData);
     cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: (result) => {     
-            console.log(result);     
             AWS.config.region = appConfig.region;
 
             const tokenKey = `cognito-idp.${appConfig.region}.amazonaws.com/${appConfig.UserPoolId}`;
@@ -63,11 +62,8 @@ export const login = (email, password) => (dispatch, getState) => {
                 }
             });
 
-            console.log(AWS.config.credentials);
-
             AWS.config.credentials.refresh((error) => {
                 if (error) {
-                    console.log(error);
                     dispatch(loginFailure());
                 } else {
                     dispatch(loginSuccessful());
@@ -96,6 +92,7 @@ export const checkUserSession = () => (dispatch, getState, {httpVerbs, apiEndPoi
                 if (err) {
                     return;
                 }
+                
                 var attr = result.find(d => d.getName() === constants.awsUserAttributes.role);
 
                 if(attr){
@@ -113,7 +110,7 @@ export const signOut = () => {
 
     if (cognitoUser != null) {
         cognitoUser.signOut();
-        AWS.config.credentials.clearCachedId();
+        //AWS.config.credentials.clearCachedId();
         global.utils.deleteAuthData();
         
         window.location.href = "/";

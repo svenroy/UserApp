@@ -15,7 +15,7 @@ export const loadUserServices = () => (dispatch, getState, { httpVerbs, apiEndPo
 
     dispatch({
         type: httpVerbs.GET,
-        url: `${apiEndPoint}/userservices`,
+        url: `${apiEndPoint}/values`,
         success: response => {
             //global.utils.setAuthData(email, response.payload.userToken, response.payload.userId);
             //dispatch(authenticationPassed());
