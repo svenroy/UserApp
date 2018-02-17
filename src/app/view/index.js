@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Route, Link, Redirect, withRouter } from 'react-router-dom';
+import { Route, Redirect, withRouter } from 'react-router-dom';
 import {bindActionCreators} from 'redux';
 import autoBind from 'react-autobind';
 
@@ -10,8 +10,15 @@ import {
 } from '../features/signup';
 
 import { connect } from 'react-redux';
-import 'bootstrap';
-import './style.css';
+//import 'bootstrap';
+//import './style.css';
+
+import Drawer from './_Drawer';
+
+import List from 'material-ui/List';
+import Divider from 'material-ui/Divider';
+import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import MailIcon from 'material-ui-icons/Mail';
 
 import {
   view as LoginView, 
@@ -31,7 +38,7 @@ import {
 
 const homeRoute = "/";
 
-const NavigationBar = ({authenticated, handleSignOut}) => 
+/*const NavigationBar = ({authenticated, handleSignOut}) => 
   <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
     <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span className="navbar-toggler-icon"></span>
@@ -45,7 +52,7 @@ const NavigationBar = ({authenticated, handleSignOut}) =>
         {!authenticated && <Link className="nav-item nav-link" to={signUpRoute}>Sign up</Link>}
       </div>
     </div>
-  </nav>;
+  </nav>;*/
 
 const Dashboard = ({role}) => {
   if(role ===  "client"){
@@ -53,6 +60,42 @@ const Dashboard = ({role}) => {
   } else{
     return <DashboardView />;
   }
+}
+
+const MenuItems = ({authenticated, handleSignOut, history}) => {
+  const signedIn = <div>
+    <Divider />
+      <List>
+          <ListItem button onClick={handleSignOut}>
+              <ListItemIcon>
+                  <MailIcon />
+              </ListItemIcon>
+              <ListItemText primary="Sign out" />
+          </ListItem>
+      </List>
+  </div>;
+
+  const signedOut = <div>
+    <Divider />
+      <List>
+          <ListItem button onClick={() => history.push(loginRoute)}>
+              <ListItemIcon>
+                  <MailIcon />
+              </ListItemIcon>
+              <ListItemText primary="Sign in" />
+          </ListItem>
+          <ListItem button onClick={() => history.push(signUpRoute)}>
+              <ListItemIcon>
+                  <MailIcon />
+              </ListItemIcon>
+              <ListItemText primary="Sign up" />
+          </ListItem>
+      </List>
+  </div>;
+
+  return <div>
+      {authenticated ? signedIn : signedOut}
+    </div>;
 }
 
 class App extends Component {
@@ -71,7 +114,7 @@ class App extends Component {
 
   render(){
     const {registrationConfirmed, authenticated, role} = this.props;
-    return <div>
+    /*return <div>
       <NavigationBar authenticated={authenticated} handleSignOut={this.handleSignOut} />
       <Route exact path={homeRoute} render={() => <Redirect to={dashboardRoute} />}/>
 
@@ -87,7 +130,30 @@ class App extends Component {
         render={() => (registrationConfirmed 
           ? <Redirect to={loginRoute} />
           : <SignUpView />)} />
+    </div>;*/
+
+    const content = <div>
+      <Route exact path={homeRoute} render={() => <Redirect to={dashboardRoute} />} />
+
+      <Route path={dashboardRoute} render={() => (authenticated 
+        ? <Dashboard role={role} /> 
+        : <Redirect to={loginRoute}/>)}/>
+
+      <Route path={loginRoute} render={() => (authenticated
+        ? <Redirect to={dashboardRoute}/>
+        : <LoginView />)} /> 
+
+      <Route path={signUpRoute} 
+        render={() => (registrationConfirmed 
+          ? <Redirect to={loginRoute} />
+          : <SignUpView />)} />
     </div>;
+
+    return <Drawer menu={<MenuItems 
+                            handleSignOut={this.handleSignOut}
+                            {...this.props} />}>
+              {content}
+           </Drawer>;
   }
 }
 
