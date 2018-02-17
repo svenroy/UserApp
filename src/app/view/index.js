@@ -10,14 +10,18 @@ import {
 } from '../features/signup';
 
 import { connect } from 'react-redux';
-//import 'bootstrap';
-//import './style.css';
 
 import Drawer from './_Drawer';
 
-import List from 'material-ui/List';
-import Divider from 'material-ui/Divider';
-import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import {
+    List, 
+    ListItem, 
+    ListItemIcon, 
+    ListItemText, 
+    Divider
+} from 'material-ui';
+
+import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 import MailIcon from 'material-ui-icons/Mail';
 
 import {
@@ -37,22 +41,6 @@ import {
 } from '../features/client-dashboard';
 
 const homeRoute = "/";
-
-/*const NavigationBar = ({authenticated, handleSignOut}) => 
-  <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
-    <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span className="navbar-toggler-icon"></span>
-    </button>
-    <a className="navbar-brand">Dashboard</a>
-    <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div className="navbar-nav">
-        {authenticated 
-          ? <a className="nav-item nav-link" href="/signout" onClick={e => {e.preventDefault(); handleSignOut();}}>Sign out</a>
-          : <Link className="nav-item nav-link" to={loginRoute}>Sign in</Link>}
-        {!authenticated && <Link className="nav-item nav-link" to={signUpRoute}>Sign up</Link>}
-      </div>
-    </div>
-  </nav>;*/
 
 const Dashboard = ({role}) => {
   if(role ===  "client"){
@@ -98,6 +86,8 @@ const MenuItems = ({authenticated, handleSignOut, history}) => {
     </div>;
 }
 
+const theme = createMuiTheme();
+
 class App extends Component {
   constructor(props){
     super(props);
@@ -114,23 +104,6 @@ class App extends Component {
 
   render(){
     const {registrationConfirmed, authenticated, role} = this.props;
-    /*return <div>
-      <NavigationBar authenticated={authenticated} handleSignOut={this.handleSignOut} />
-      <Route exact path={homeRoute} render={() => <Redirect to={dashboardRoute} />}/>
-
-      <Route path={dashboardRoute} render={() => (authenticated 
-        ? <Dashboard role={role} /> 
-        : <Redirect to={loginRoute}/>)}/>
-
-      <Route path={loginRoute} render={() => (authenticated
-        ? <Redirect to={dashboardRoute}/>
-        : <LoginView />)} /> 
-
-      <Route path={signUpRoute} 
-        render={() => (registrationConfirmed 
-          ? <Redirect to={loginRoute} />
-          : <SignUpView />)} />
-    </div>;*/
 
     const content = <div>
       <Route exact path={homeRoute} render={() => <Redirect to={dashboardRoute} />} />
@@ -149,11 +122,13 @@ class App extends Component {
           : <SignUpView />)} />
     </div>;
 
-    return <Drawer menu={<MenuItems 
-                            handleSignOut={this.handleSignOut}
-                            {...this.props} />}>
-              {content}
-           </Drawer>;
+    return <MuiThemeProvider theme={theme}>
+            <Drawer menu={<MenuItems 
+                              handleSignOut={this.handleSignOut}
+                              {...this.props} />}>
+                {content}
+            </Drawer>
+           </MuiThemeProvider>;
   }
 }
 
