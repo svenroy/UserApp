@@ -69,20 +69,17 @@ class App extends Component {
   render(){
     const {registrationConfirmed, authenticated, role} = this.props;
     
-    const content = <div>
-      <PrivateRoute 
-        exact path={homeRoute} 
-        authenticated={authenticated} 
-        render={() => <Redirect to={servicesRoute}/> }/> 
+    const content = <div>    
+      <Route exact path={homeRoute} render={() => <Redirect to={servicesRoute} />} />      
 
       <PrivateRoute 
-        exact path={servicesRoute}
         authenticated={authenticated} 
-        render={() => <Dashboard role={role}/>}/>     
+        path={servicesRoute} 
+        render={() => <Dashboard role={role} />}/>
 
       <Route path={loginRoute} render={() => (authenticated
-        ? <Redirect to={homeRoute}/>
-        : <LoginView />)} />
+        ? <Redirect to={servicesRoute}/>
+        : <LoginView />)} /> 
 
       <Route path={signUpRoute} 
         render={() => (registrationConfirmed 
