@@ -1,8 +1,9 @@
 import createReducer from './state';
-import view from './view';
+import view, {menu} from './view';
 
 export {
-    view
+    view,
+    menu
 };
 
 export default createReducer;

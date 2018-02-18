@@ -97,6 +97,8 @@ export const checkUserSession = () => (dispatch, getState, {httpVerbs, apiEndPoi
 
                 if(attr){
                     global.utils.setUserToken(session.getIdToken().getJwtToken());
+                    global.utils.setUserId(session.accessToken.payload.sub);
+                    
                     dispatch(loginSuccessful());
                     dispatch(validSession(attr.getValue()));                    
                 }

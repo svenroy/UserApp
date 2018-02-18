@@ -11,18 +11,10 @@ import {
 
 import { connect } from 'react-redux';
 
-import Drawer from './_Drawer';
-
-import {
-    List, 
-    ListItem, 
-    ListItemIcon, 
-    ListItemText, 
-    Divider
-} from 'material-ui';
+import Drawer from './_drawer';
+import Menu from './_menu';
 
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
-import MailIcon from 'material-ui-icons/Mail';
 
 import {
   view as LoginView, 
@@ -37,7 +29,7 @@ import {
 } from '../features/user-dashboard';
 
 import {
-  view as ClientDashboardView, 
+  view as ClientDashboardView
 } from '../features/client-dashboard';
 
 const homeRoute = "/";
@@ -48,42 +40,6 @@ const Dashboard = ({role}) => {
   } else{
     return <DashboardView />;
   }
-}
-
-const MenuItems = ({authenticated, handleSignOut, history}) => {
-  const signedIn = <div>
-    <Divider />
-      <List>
-          <ListItem button onClick={handleSignOut}>
-              <ListItemIcon>
-                  <MailIcon />
-              </ListItemIcon>
-              <ListItemText primary="Sign out" />
-          </ListItem>
-      </List>
-  </div>;
-
-  const signedOut = <div>
-    <Divider />
-      <List>
-          <ListItem button onClick={() => history.push(loginRoute)}>
-              <ListItemIcon>
-                  <MailIcon />
-              </ListItemIcon>
-              <ListItemText primary="Sign in" />
-          </ListItem>
-          <ListItem button onClick={() => history.push(signUpRoute)}>
-              <ListItemIcon>
-                  <MailIcon />
-              </ListItemIcon>
-              <ListItemText primary="Sign up" />
-          </ListItem>
-      </List>
-  </div>;
-
-  return <div>
-      {authenticated ? signedIn : signedOut}
-    </div>;
 }
 
 const theme = createMuiTheme();
@@ -123,9 +79,7 @@ class App extends Component {
     </div>;
 
     return <MuiThemeProvider theme={theme}>
-            <Drawer menu={<MenuItems 
-                              handleSignOut={this.handleSignOut}
-                              {...this.props} />}>
+            <Drawer menu={<Menu handleSignOut={this.handleSignOut} {...this.props} />}>
                 {content}
             </Drawer>
            </MuiThemeProvider>;

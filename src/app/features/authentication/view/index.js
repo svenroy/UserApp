@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as duck from '../state';
 
-import LoginView from './_Login';
+import LoginView from './_login';
 
 class Login extends Component {    
     constructor(props){

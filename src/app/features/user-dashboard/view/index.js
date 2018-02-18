@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as duck from '../state';
 
+import menu from './_menu';
+
 class DashboardContainer extends Component {
 
     componentDidMount(){
@@ -14,6 +16,10 @@ class DashboardContainer extends Component {
             Dashboard
         </div>;
     }
+}
+
+export {
+    menu
 }
 
 export default connect(
