@@ -28,11 +28,6 @@ const loginFailure = () => ({
     when: Date.now()
 });
 
-const validSession = role => ({
-    type: types.SESSION_VALID,
-    role
-});
-
 export const login = (email, password) => (dispatch, getState) => {   
     dispatch({ type: types.LOGIN_REQUESTED });
 
@@ -51,27 +46,8 @@ export const login = (email, password) => (dispatch, getState) => {
     var cognitoUser = new CognitoUser(userData);
     cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: (result) => {     
-            AWS.config.region = appConfig.region;
-
-            const tokenKey = `cognito-idp.${appConfig.region}.amazonaws.com/${appConfig.UserPoolId}`;
-
-            AWS.config.credentials = new CognitoIdentityCredentials({
-                IdentityPoolId : appConfig.IdentityPoolId,
-                Logins : {
-                    [tokenKey] : result.getIdToken().getJwtToken()
-                }
-            });
-
-            AWS.config.credentials.refresh((error) => {
-                if (error) {
-                    dispatch(loginFailure());
-                } else {
-                    dispatch(loginSuccessful());
-                    dispatch(checkUserSession());
-                }
-            });
+            dispatch(saveUserSession());
         },
-
         onFailure: (err) => {
             alert(err);
             dispatch(loginFailure());
@@ -79,7 +55,7 @@ export const login = (email, password) => (dispatch, getState) => {
     });
 };
 
-export const checkUserSession = () => (dispatch, getState, {httpVerbs, apiEndPoint}) => {
+export const saveUserSession = () => (dispatch, getState, {httpVerbs, apiEndPoint}) => {
     var cognitoUser = userPool.getCurrentUser();
 
     if (cognitoUser != null) {
@@ -98,9 +74,9 @@ export const checkUserSession = () => (dispatch, getState, {httpVerbs, apiEndPoi
                 if(attr){
                     global.utils.setUserToken(session.getIdToken().getJwtToken());
                     global.utils.setUserId(session.accessToken.payload.sub);
+                    global.utils.setUserRole(attr.getValue());
                     
-                    dispatch(loginSuccessful());
-                    dispatch(validSession(attr.getValue()));                    
+                    dispatch(loginSuccessful());                    
                 }
             });
         });
@@ -112,9 +88,7 @@ export const signOut = () => {
 
     if (cognitoUser != null) {
         cognitoUser.signOut();
-        //AWS.config.credentials.clearCachedId();
-        global.utils.deleteAuthData();
-        
+        global.utils.deleteAuthData();        
         window.location.href = "/";
     }
 };

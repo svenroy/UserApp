@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Route, Redirect, withRouter } from 'react-router-dom';
+import { Route, Redirect, withRouter, Switch } from 'react-router-dom';
 import {bindActionCreators} from 'redux';
 import autoBind from 'react-autobind';
 
@@ -39,18 +39,24 @@ const theme = createMuiTheme();
 const Dashboard = ({role}) => {
   if(role ===  "client"){
     return <ClientDashboardView />;
-  } else{
+  } else if(role === "user"){
     return <DashboardView />;
+  } else{
+    <p>Invalid user</p>;
   }
 }
 
-const PrivateRoute = ({ authenticated, render, ...rest }) => (
-  <Route {...rest} render={props => (
-    authenticated 
-      ? (render(props)) 
-      : (<Redirect to={{pathname: loginRoute, state: { from: props.location }}} />)
-    )} />
-);
+const PrivateRoute = ({ authenticated, render, ...rest }) => {
+  //console.log(rest);
+  return <Route {...rest} render={props => {
+    //console.log(props);
+    return (
+      authenticated 
+        ? (render(props)) 
+        : (<Redirect to={{pathname: loginRoute, state: { from: props.location }}} />)
+      );
+  }} />;
+}
 
 class App extends Component {
   constructor(props){
@@ -59,7 +65,7 @@ class App extends Component {
   }
 
   componentDidMount(){
-    this.props.actions.login.checkUserSession();
+    //this.props.actions.login.checkUserSession();
   }
 
   handleSignOut(){
@@ -69,22 +75,26 @@ class App extends Component {
   render(){
     const {registrationConfirmed, authenticated, role} = this.props;
     
-    const content = <div>    
-      <Route exact path={homeRoute} render={() => <Redirect to={servicesRoute} />} />      
+    const content = <div> 
+      <Switch> 
+        <Route exact path={homeRoute} render={() => <Redirect to={servicesRoute} />} />      
 
-      <PrivateRoute 
-        authenticated={authenticated} 
-        path={servicesRoute} 
-        render={() => <Dashboard role={role} />}/>
+        <PrivateRoute
+          authenticated={authenticated} 
+          path={servicesRoute} 
+          render={() => <Dashboard role={role} />}/>
 
-      <Route path={loginRoute} render={() => (authenticated
-        ? <Redirect to={servicesRoute}/>
-        : <LoginView />)} /> 
+        <Route path={loginRoute} render={() => (authenticated
+          ? <Redirect to={servicesRoute}/>
+          : <LoginView />)} /> 
 
-      <Route path={signUpRoute} 
-        render={() => (registrationConfirmed 
-          ? <Redirect to={loginRoute} />
-          : <SignUpView />)} />
+        <Route path={signUpRoute} 
+          render={() => (registrationConfirmed 
+            ? <Redirect to={loginRoute} />
+            : <SignUpView />)} />
+
+        <Route path="*" render={() => <p>Not found</p>}/>
+      </Switch>  
     </div>;
 
     return <MuiThemeProvider theme={theme}>
@@ -99,8 +109,8 @@ export default withRouter(
   connect(
       (state, ownProps) => ({
         registrationConfirmed: signUpSelectors.getRegistrationConfirmation(state, ownProps),
-        authenticated: authenticationSelectors.getUserAuthenticated(state, ownProps),
-        role: authenticationSelectors.getUserRole(state, ownProps),
+        authenticated: authenticationSelectors.getUserAuthenticated(),
+        role: authenticationSelectors.getUserRole(),
         history: ownProps.history
       }), 
       (dispatch, ownProps) => {

@@ -56,7 +56,7 @@ const ServicesView = ({classes, services, handleAddClick}) => {
                 ?
                     <List>
                         {services.map((d, index) => {
-                            const url = `localhost:3000/dashboard/services/add?client=${client}&service=${d.id}`
+                            const url = `localhost:3000/services/add/${d.id}`
                             return <div key={index}>
                                 <ListItem>
                                     <Card className={classes.card}>

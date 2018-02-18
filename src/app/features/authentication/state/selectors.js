@@ -4,12 +4,6 @@ const getDuckState = (state, props) => {
     return state.authentication;
 };
 
-export const getUserAuthenticated = createSelector(
-    [getDuckState],
-    (authentication) => authentication.validUserSession
-);
+export const getUserAuthenticated = () => global.utils.validSession();
 
-export const getUserRole = createSelector(
-    [getDuckState],
-    (authentication) => authentication.user.role
-);
+export const getUserRole = () => global.utils.getUserRole();

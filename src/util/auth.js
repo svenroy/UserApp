@@ -1,5 +1,9 @@
+import appConfig from "../config/aws";
+import { CognitoUserPool } from "amazon-cognito-identity-js";
+
 const UserTokenKey = "dashboard_user_token";
 const UserIdKey = "dashboard_user_id";
+const UserRoleKey = "dashboard_user_role";
 
 export const getAuthHeaders = () => {
     let token = global.sessionStorage.getItem(UserTokenKey);
@@ -18,18 +22,40 @@ export const setUserId = userId => {
     global.sessionStorage.setItem(UserIdKey, userId);
 };
 
+export const setUserRole = role => {
+    global.sessionStorage.setItem(UserRoleKey, role);
+};
+
 export const getUserId = () => {
     return global.sessionStorage.getItem(UserIdKey)
 };
 
+export const getUserRole = () => {
+    return global.sessionStorage.getItem(UserRoleKey)
+};
+
+export const validSession = () => {
+    const userPool = new CognitoUserPool({
+        UserPoolId: appConfig.UserPoolId,
+        ClientId: appConfig.ClientId,
+    });
+
+    return userPool.getCurrentUser() !== null;
+};
+
 export const deleteAuthData = () => {
     global.sessionStorage.removeItem(UserTokenKey);
+    global.sessionStorage.removeItem(UserIdKey);
+    global.sessionStorage.removeItem(UserRoleKey);
 };
 
 global.utils = {
     ...global.utils,
     setUserToken,
     setUserId,
+    setUserRole,
     getUserId,
-    deleteAuthData
+    getUserRole,
+    deleteAuthData,
+    validSession
 };
