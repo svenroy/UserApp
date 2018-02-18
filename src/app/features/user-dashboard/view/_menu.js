@@ -10,7 +10,7 @@ const Menu = ({history}) => {
     return <div>
     <Divider />
       <List>          
-          <ListItem button onClick={() => history.push("/dashboard")}>
+          <ListItem button onClick={() => history.push("/services")}>
               <ListItemText primary="My services" />
           </ListItem>
           <ListItem button onClick={() => history.push("/profile")}>

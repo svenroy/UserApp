@@ -25,6 +25,7 @@ const AddServiceView = ({
     name, 
     url,
     classes}) => {
+        console.log("Called");
     return <Paper style={{padding: "50px"}}>
         <Typography variant="display2" color="primary">New service</Typography>
         <br/>

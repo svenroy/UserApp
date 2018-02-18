@@ -27,7 +27,7 @@ class ClientDashboardContainer extends Component {
     }
 
     handleAddClick() {
-        this.props.history.push("/dashboard/services/add");
+        this.props.history.push("/services/create");
     }
 
     handleChange(e){
@@ -38,7 +38,7 @@ class ClientDashboardContainer extends Component {
     handleAddSubmit(){
         if(this.state.name.length > 0) {
             this.props.addClientService(this.state.name, this.state.url);
-            this.props.history.push("/dashboard");
+            this.props.history.push("/services");
         }        
     }
 
@@ -48,15 +48,15 @@ class ClientDashboardContainer extends Component {
         } else {
             return <div>
                 <Route 
-                    exact path={"/dashboard"}
+                    exact path={"/services"}
                     render={() => <ListServicesView {...this.props} 
                                                     handleAddClick={this.handleAddClick} />}/>
                 <Route 
-                    path={"/dashboard/services/add"} 
+                    path={"/services/create"} 
                     render={() => <AddServiceView {...this.props}
-                                                  handleChange={this.handleChange}
-                                                  handleSubmit={this.handleAddSubmit}
-                                                  {...this.state} />}/>
+                                                handleChange={this.handleChange}
+                                                handleSubmit={this.handleAddSubmit}
+                                                {...this.state} />}/>
             </div>;
         }
     }

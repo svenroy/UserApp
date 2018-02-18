@@ -24,8 +24,7 @@ import {
 } from '../features/authentication';
 
 import {
-  view as DashboardView, 
-  route as dashboardRoute
+  view as DashboardView
 } from '../features/user-dashboard';
 
 import {
@@ -33,6 +32,9 @@ import {
 } from '../features/client-dashboard';
 
 const homeRoute = "/";
+const servicesRoute = "/services";
+
+const theme = createMuiTheme();
 
 const Dashboard = ({role}) => {
   if(role ===  "client"){
@@ -42,7 +44,13 @@ const Dashboard = ({role}) => {
   }
 }
 
-const theme = createMuiTheme();
+const PrivateRoute = ({ authenticated, render, ...rest }) => (
+  <Route {...rest} render={props => (
+    authenticated 
+      ? (render(props)) 
+      : (<Redirect to={{pathname: loginRoute, state: { from: props.location }}} />)
+    )} />
+);
 
 class App extends Component {
   constructor(props){
@@ -60,17 +68,21 @@ class App extends Component {
 
   render(){
     const {registrationConfirmed, authenticated, role} = this.props;
-
+    
     const content = <div>
-      <Route exact path={homeRoute} render={() => <Redirect to={dashboardRoute} />} />
+      <PrivateRoute 
+        exact path={homeRoute} 
+        authenticated={authenticated} 
+        render={() => <Redirect to={servicesRoute}/> }/> 
 
-      <Route path={dashboardRoute} render={() => (authenticated 
-        ? <Dashboard role={role} /> 
-        : <Redirect to={loginRoute}/>)}/>
+      <PrivateRoute 
+        exact path={servicesRoute}
+        authenticated={authenticated} 
+        render={() => <Dashboard role={role}/>}/>     
 
       <Route path={loginRoute} render={() => (authenticated
-        ? <Redirect to={dashboardRoute}/>
-        : <LoginView />)} /> 
+        ? <Redirect to={homeRoute}/>
+        : <LoginView />)} />
 
       <Route path={signUpRoute} 
         render={() => (registrationConfirmed 
