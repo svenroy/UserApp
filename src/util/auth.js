@@ -40,7 +40,9 @@ export const validSession = () => {
         ClientId: appConfig.ClientId,
     });
 
-    return userPool.getCurrentUser() !== null;
+    return userPool.getCurrentUser() !== null &&
+        getUserRole() !== null &&
+        getUserId() !== null;
 };
 
 export const deleteAuthData = () => {

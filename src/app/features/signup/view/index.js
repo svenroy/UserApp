@@ -12,8 +12,8 @@ class SignUpContainer extends Component {
     constructor(props){
         super(props);
         this.state = {
-            email: "roystonyinkore@gmail.com",
-            password: "Abc123!!",
+            email: "",
+            password: "",
             confirmationCode: "",
             tabIndex: 0
         }

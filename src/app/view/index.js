@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Route, Redirect, withRouter, Switch } from 'react-router-dom';
+import { Route, Redirect, withRouter, Switch, HashRouter } from 'react-router-dom';
 import {bindActionCreators} from 'redux';
 import autoBind from 'react-autobind';
 
@@ -47,9 +47,7 @@ const Dashboard = ({role}) => {
 }
 
 const PrivateRoute = ({ authenticated, render, ...rest }) => {
-  //console.log(rest);
   return <Route {...rest} render={props => {
-    //console.log(props);
     return (
       authenticated 
         ? (render(props)) 
@@ -64,10 +62,6 @@ class App extends Component {
     autoBind(this);
   }
 
-  componentDidMount(){
-    //this.props.actions.login.checkUserSession();
-  }
-
   handleSignOut(){
     this.props.actions.login.signOut();
   }
@@ -76,25 +70,27 @@ class App extends Component {
     const {registrationConfirmed, authenticated, role} = this.props;
     
     const content = <div> 
-      <Switch> 
-        <Route exact path={homeRoute} render={() => <Redirect to={servicesRoute} />} />      
+      <HashRouter>
+        <Switch> 
+          <Route exact path={homeRoute} render={() => <Redirect to={servicesRoute} />} />      
 
-        <PrivateRoute
-          authenticated={authenticated} 
-          path={servicesRoute} 
-          render={() => <Dashboard role={role} />}/>
+          <PrivateRoute
+            authenticated={authenticated} 
+            path={servicesRoute} 
+            render={() => <Dashboard role={role} />}/>
 
-        <Route path={loginRoute} render={() => (authenticated
-          ? <Redirect to={servicesRoute}/>
-          : <LoginView />)} /> 
+          <Route path={loginRoute} render={() => (authenticated
+            ? <Redirect to={servicesRoute}/>
+            : <LoginView />)} /> 
 
-        <Route path={signUpRoute} 
-          render={() => (registrationConfirmed 
-            ? <Redirect to={loginRoute} />
-            : <SignUpView />)} />
+          <Route path={signUpRoute} 
+            render={() => (registrationConfirmed 
+              ? <Redirect to={loginRoute} />
+              : <SignUpView />)} />
 
-        <Route path="*" render={() => <p>Not found</p>}/>
-      </Switch>  
+          <Route path="*" render={() => <p>Not found</p>}/>
+        </Switch>  
+      </HashRouter>
     </div>;
 
     return <MuiThemeProvider theme={theme}>
