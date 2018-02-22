@@ -8,6 +8,7 @@ import autobind from 'react-autobind';
 import menu from './_menu';
 import ListServicesView from './_listServices';
 import AddServiceView from './_addService';
+import ProfileView from './_profile';
 import LoadingIndicator from './_loadingIndicator';
 
 class ClientDashboardContainer extends Component {
@@ -16,7 +17,8 @@ class ClientDashboardContainer extends Component {
 
         this.state = {
             name: "",
-            url: ""
+            serviceKey: "",
+            defaultValue: "NO DATA"
         };
 
         autobind(this);
@@ -36,8 +38,12 @@ class ClientDashboardContainer extends Component {
     }
 
     handleAddSubmit(){
-        if(this.state.name.length > 0) {
-            this.props.addClientService(this.state.name, this.state.url);
+        const {name, serviceKey, defaultValue} = this.state;
+
+        if( name.length > 0 &&
+            serviceKey.length > 0 &&
+            defaultValue.length > 0) {
+            this.props.addClientService(name, serviceKey, defaultValue);
             this.props.history.push("/services");
         }        
     }
@@ -57,6 +63,9 @@ class ClientDashboardContainer extends Component {
                                                 handleChange={this.handleChange}
                                                 handleSubmit={this.handleAddSubmit}
                                                 {...this.state} />}/>
+
+                <Route path={"/profile"}
+                        render={() => <ProfileView />}/>
             </div>;
         }
     }

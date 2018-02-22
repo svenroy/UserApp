@@ -23,7 +23,8 @@ const AddServiceView = ({
     handleSubmit,
     handleChange, 
     name, 
-    url,
+    serviceKey,
+    defaultValue,
     classes}) => {
     return <Paper style={{padding: "50px"}}>
         <Typography variant="display2" color="primary">New service</Typography>
@@ -40,10 +41,18 @@ const AddServiceView = ({
                 margin="normal"/>
             <br/>
             <TextField
-                name="url"
-                label="Url"
+                name="serviceKey"
+                label="Key"
                 className={classes.textField}
-                value={url}
+                value={serviceKey}
+                onChange={handleChange}
+                margin="normal"/>
+            <br/>
+            <TextField
+                name="defaultValue"
+                label="Default value"
+                className={classes.textField}
+                value={defaultValue}
                 onChange={handleChange}
                 margin="normal"/>
             <br/>

@@ -24,7 +24,7 @@ export const loadClientServices = () => (dispatch, getState, {httpVerbs, apiEndP
     });
 };
 
-export const addClientService = (name, url) => (dispatch, getState, {httpVerbs, apiEndPoint}) => {
+export const addClientService = (name, key, defaultValue) => (dispatch, getState, {httpVerbs, apiEndPoint}) => {
     dispatch({
         type: types.ADD_CLIENT_SERVICE_REQUESTED
     });
@@ -32,7 +32,7 @@ export const addClientService = (name, url) => (dispatch, getState, {httpVerbs, 
     dispatch({
         type: httpVerbs.POST,
         url: `${apiEndPoint}/clientservices`,
-        body: { id: uuidv4(), name, url },
+        body: { id: uuidv4(), name, key, defaultValue },
         success: response => {
             dispatch({
                 type: types.ADD_CLIENT_SERVICE_SUCCESS

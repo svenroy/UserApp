@@ -56,7 +56,7 @@ const ServicesView = ({classes, services, handleAddClick}) => {
                 ?
                     <List>
                         {services.map((d, index) => {
-                            const url = `${window.location.origin}/#/services/add/${d.id}`;
+                            //const url = `${window.location.origin}/#/services/add/${d.id}`;
                             return <div key={index}>
                                 <ListItem>
                                     <Card className={classes.card}>
@@ -64,11 +64,9 @@ const ServicesView = ({classes, services, handleAddClick}) => {
                                             <Typography variant="headline" component="h2">
                                                 {d.name}
                                             </Typography>
-                                            <Typography className={classes.pos}>{url}</Typography>
+                                            <Typography className={classes.pos}>{d.key}</Typography>
+                                            <Typography className={classes.pos}>{d.defaultValue}</Typography>
                                         </CardContent>
-                                        <CardActions>
-                                            <Button size="small">Copy link</Button>
-                                        </CardActions>
                                     </Card> 
                                 </ListItem>                                
                             </div>
