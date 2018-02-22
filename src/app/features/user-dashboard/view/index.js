@@ -30,8 +30,8 @@ class DashboardContainer extends Component {
 
     handleAddServiceSubmit = () => {
         if(this.props.addService != null){
-            this.props.addExistingService(this.props.addService.id, "eth_addressx01");
-        }     
+            this.props.addService(this.props.addService.id);
+        }
     }
 
     render(){

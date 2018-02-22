@@ -34,7 +34,7 @@ export const getUserRole = () => {
     return global.sessionStorage.getItem(UserRoleKey)
 };
 
-export const validSession = () => {
+export const validSession = () => {   
     const userPool = new CognitoUserPool({
         UserPoolId: appConfig.UserPoolId,
         ClientId: appConfig.ClientId,
@@ -45,7 +45,22 @@ export const validSession = () => {
         getUserId() !== null;
 };
 
-export const deleteAuthData = () => {
+export const signOut = () => {
+    const userPool = new CognitoUserPool({
+        UserPoolId: appConfig.UserPoolId,
+        ClientId: appConfig.ClientId,
+    });
+
+    var cognitoUser = userPool.getCurrentUser();
+
+    if (cognitoUser != null) {
+        cognitoUser.signOut();
+        deleteAuthData();        
+        window.location.href = "/";
+    }
+};
+
+const deleteAuthData = () => {
     global.sessionStorage.removeItem(UserTokenKey);
     global.sessionStorage.removeItem(UserIdKey);
     global.sessionStorage.removeItem(UserRoleKey);
@@ -58,6 +73,6 @@ global.utils = {
     setUserRole,
     getUserId,
     getUserRole,
-    deleteAuthData,
-    validSession
+    validSession,
+    signOut
 };

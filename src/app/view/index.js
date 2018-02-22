@@ -42,7 +42,7 @@ const Dashboard = ({role}) => {
   } else if(role === "user"){
     return <DashboardView />;
   } else{
-    <p>Invalid user</p>;
+    return <p>Invalid user</p>;
   }
 }
 

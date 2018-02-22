@@ -1,7 +1,6 @@
 import fetch from 'isomorphic-fetch';
 
 const placeHttpRequest = (url, method, body, authHeaders) => {
-
     let options = {
         method,
         headers: {
@@ -19,8 +18,12 @@ const placeHttpRequest = (url, method, body, authHeaders) => {
     }
 
     return fetch(url, options)
-        .then(response =>
-            response.json().then(json => {
+        .then(response => {
+            if(response.status === 401){
+                global.utils.signOut();
+            }
+            
+            return response.json().then(json => {
                 //const camelisedJson = humps.camelizeKeys(json || {});
 
                 if (!response.ok) {
@@ -28,8 +31,8 @@ const placeHttpRequest = (url, method, body, authHeaders) => {
                 }
 
                 return json;
-            })
-        );
+            });
+        });
 };
 
 export const GET = 'HTTP_GET';

@@ -28,9 +28,9 @@ export const getClientService = (id) => (dispatch, getState, { httpVerbs, apiEnd
     });
 };
 
-export const addExistingService = (clientServiceId) => (dispatch, getState, { httpVerbs, apiEndPoint }) => {
+export const addService = (clientServiceId) => (dispatch, getState, { httpVerbs, apiEndPoint }) => {
     dispatch({
-        type: types.ADD_EXISTING_CLIENT_SERVICE_REQUESTED
+        type: types.ADD_CLIENT_SERVICE_REQUESTED
     });
 
     dispatch({
@@ -39,18 +39,14 @@ export const addExistingService = (clientServiceId) => (dispatch, getState, { ht
         body: clientServiceId,
         success: response => {
             dispatch({
-                type: types.ADD_EXISTING_CLIENT_SERVICE_SUCCESS
+                type: types.ADD_CLIENT_SERVICE_SUCCESS
             });           
         },
         failure: response => {
             dispatch({
-                type: types.ADD_EXISTING_CLIENT_SERVICE_FAILURE
+                type: types.ADD_CLIENT_SERVICE_FAILURE
             });
         }
     });
-};
-
-export const addNewService = (name) => (dispatch, getState, { httpVerbs, apiEndPoint }) => {
-
 };
 

@@ -1,9 +1,5 @@
 import * as types from './types';
-
 import appConfig from "../../../../config/aws";
-import AWS, {
-    CognitoIdentityCredentials
-} from "aws-sdk";
 
 import {
   CognitoUserPool,
@@ -84,11 +80,5 @@ export const saveUserSession = () => (dispatch, getState, {httpVerbs, apiEndPoin
 }
 
 export const signOut = () => {
-    var cognitoUser = userPool.getCurrentUser();
-
-    if (cognitoUser != null) {
-        cognitoUser.signOut();
-        global.utils.deleteAuthData();        
-        window.location.href = "/";
-    }
+    global.utils.signOut();
 };
