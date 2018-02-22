@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, Typography, Divider} from 'material-ui';
-import Card, { CardActions, CardContent } from 'material-ui/Card';
+import Card, { CardContent } from 'material-ui/Card';
 import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import AddIcon from 'material-ui-icons/Add';
@@ -35,9 +35,7 @@ const styles = theme => ({
     },
 });
 
-const ServicesView = ({classes, services, handleAddClick}) => {
-    const client = global.utils.getUserId();
-    
+const ServicesView = ({classes, services, handleAddClick}) => {    
     return <div>
         <Button 
             variant="fab" 

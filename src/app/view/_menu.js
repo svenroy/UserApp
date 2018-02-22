@@ -7,8 +7,8 @@ import {
 } from 'material-ui';
 
 import {
-    menu as ClientDashboardMenu,
-} from '../features/client-dashboard';
+    menu as ClientAppMenu,
+} from '../features/clientapp';
 
 import {
     menu as UserDashboardMenu,
@@ -47,7 +47,7 @@ const Menu = ({authenticated, handleSignOut, history, role}) => {
     let currentViewMenu = <UserDashboardMenu history={history} />;
 
     if(role === "client"){
-        currentViewMenu = <ClientDashboardMenu history={history} />;
+        currentViewMenu = <ClientAppMenu history={history} />;
     }
   
     return <div>        

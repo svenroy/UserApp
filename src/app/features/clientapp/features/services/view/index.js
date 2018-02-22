@@ -5,10 +5,8 @@ import { bindActionCreators } from 'redux';
 import * as duck from '../state';
 import autobind from 'react-autobind';
 
-import menu from './_menu';
 import ListServicesView from './_listServices';
 import AddServiceView from './_addService';
-import ProfileView from './_profile';
 import LoadingIndicator from './_loadingIndicator';
 
 class ClientDashboardContainer extends Component {
@@ -63,16 +61,9 @@ class ClientDashboardContainer extends Component {
                                                 handleChange={this.handleChange}
                                                 handleSubmit={this.handleAddSubmit}
                                                 {...this.state} />}/>
-
-                <Route path={"/profile"}
-                        render={() => <ProfileView />}/>
             </div>;
         }
     }
-}
-
-export {
-    menu
 }
 
 export default withRouter(connect(
