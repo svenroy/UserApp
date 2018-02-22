@@ -1,19 +1,14 @@
 import React, {Component} from 'react';
-import {defaultRoutes, clientAppRoutes, userAppRoutes} from '../routes';
-import { Route, withRouter, Switch } from 'react-router-dom';
-import Menu from './_menu';
-
-import {bindActionCreators} from 'redux';
-
-import { 
-  selectors as signUpSelectors
-} from '../features/signup';
-
 import { connect } from 'react-redux';
-
-import Drawer from './_drawer';
-
+import {bindActionCreators} from 'redux';
+import { Route, withRouter, Switch } from 'react-router-dom';
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
+import {defaultRoutes, clientAppRoutes, userAppRoutes} from '../routes';
+
+import constants from '../../config/constants';
+
+import Menu from './_menu';
+import Drawer from './_drawer';
 
 import {
   selectors as authenticationSelectors,
@@ -23,7 +18,6 @@ import {
 const theme = createMuiTheme();
 
 class App extends Component {
-
     handleSignOut = () => {
         this.props.actions.login.signOut();
     };
@@ -32,9 +26,9 @@ class App extends Component {
         let routes = defaultRoutes;
 
         if(this.props.authenticated){
-            if(this.props.role === "client"){
+            if(this.props.role === constants.userRoles.client){
                 routes = [...defaultRoutes, ...clientAppRoutes];
-            } else if(this.props.role === "user") {
+            } else if(this.props.role === constants.userRoles.user) {
                 routes = [...defaultRoutes, ...userAppRoutes];
             }
         }
@@ -54,7 +48,6 @@ class App extends Component {
 export default withRouter(
     connect(
         (state, ownProps) => ({
-          registrationConfirmed: signUpSelectors.getRegistrationConfirmation(state, ownProps),
           authenticated: authenticationSelectors.getUserAuthenticated(),
           role: authenticationSelectors.getUserRole(),
           history: ownProps.history

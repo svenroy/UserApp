@@ -1,11 +1,10 @@
-import createReducer, { selectors } from './state';
+import createReducer from './state';
 import view from './view';
 
 const route = '/signup';
 export {
     view,
-    route,
-    selectors
+    route
 };
 
 export default createReducer;

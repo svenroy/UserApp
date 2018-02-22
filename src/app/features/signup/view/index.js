@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as duck from '../state';
+import { withRouter } from 'react-router-dom';
 import autoBind from 'react-autobind';
+import * as duck from '../state';
+
 import constants from '../../../../config/constants';
 
 import SignUpView from './_signUp';
@@ -33,7 +35,9 @@ class SignUpContainer extends Component {
     }
 
     handleConfimationSubmit(){
-        this.props.confirm(this.state.email, this.state.confirmationCode);
+        this.props.confirm(this.state.email, this.state.confirmationCode, () => {
+            this.props.history.push("/");
+        });
     }
 
     handleResendConfirmation(e){
@@ -74,7 +78,7 @@ class SignUpContainer extends Component {
     }
 }
 
-export default connect(
-    (state, ownProps) => ({...state.registration}),
+export default withRouter(connect(
+    (state, ownProps) => ({...state.registration, history: ownProps.history}),
     (dispatch, ownProps) => bindActionCreators(duck.actions, dispatch)
-)(SignUpContainer);
+)(SignUpContainer));

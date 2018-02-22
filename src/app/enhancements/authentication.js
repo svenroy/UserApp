@@ -37,7 +37,7 @@ export const redirectIfAuthenticated = (WrappedComponent) => {
         isAuthenticated: bool.isRequired,
     };
 
-    const mapStateToProps = ( state ) => ( {
+    const mapStateToProps = (state) => ( {
         isAuthenticated: global.utils.validSession(),
     } );
 

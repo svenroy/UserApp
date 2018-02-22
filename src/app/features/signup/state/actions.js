@@ -39,7 +39,7 @@ export const signUp = (email, password, role) => (dispatch, getState) => {
     });
 };
 
-export const confirm = (email, confirmationCode) => (dispatch, getState) => {
+export const confirm = (email, confirmationCode, next) => (dispatch, getState) => {
 
     let userData = {
         Username : email,
@@ -52,8 +52,12 @@ export const confirm = (email, confirmationCode) => (dispatch, getState) => {
             dispatch({type: types.REGISTER_CONFIRMATION_FAILURE});
             return;
         }
+
         dispatch({type: types.REGISTER_CONFIRMATION_SUCCESS});
-    });
+        if(next){
+            next();
+        }
+    });       
 };
 
 export const resendConfirmation = (email) => (dispatch, getState) => {
