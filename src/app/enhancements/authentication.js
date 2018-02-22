@@ -27,7 +27,7 @@ export default function withAuthentication(WrappedComponent) {
 export const redirectIfAuthenticated = (WrappedComponent) => {
     const RedirectIfAuthenticated = (props) => {
         if (props.isAuthenticated) {
-            return <Redirect to="/" />;
+            return <Redirect to="/home" />;
         }
         return (<WrappedComponent { ...props } />);
     };

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {defaultRoutes, clientAppRoutes} from '../routes';
+import {defaultRoutes, clientAppRoutes, userAppRoutes} from '../routes';
 import { Route, withRouter, Switch } from 'react-router-dom';
 import Menu from './_menu';
 
@@ -29,12 +29,21 @@ class App extends Component {
     };
 
     render(){
-        const routes = [...defaultRoutes, ...clientAppRoutes];
+        let routes = defaultRoutes;
+
+        if(this.props.authenticated){
+            if(this.props.role === "client"){
+                routes = [...defaultRoutes, ...clientAppRoutes];
+            } else if(this.props.role === "user") {
+                routes = [...defaultRoutes, ...userAppRoutes];
+            }
+        }
+        
         return <MuiThemeProvider theme={theme}>
                 <Drawer menu={<Menu handleSignOut={this.handleSignOut} {...this.props} />}>
                     <Switch>
                         {routes.map(route => (
-                            <Route key={route.path} { ...route } />
+                            <Route key={route.path} {...route} />
                         ))}
                     </Switch>
                 </Drawer>

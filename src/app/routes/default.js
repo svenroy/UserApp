@@ -1,5 +1,5 @@
 import React from 'react';
-import {redirectIfAuthenticated} from '../enhancements/authentication';
+import authenticated, {redirectIfAuthenticated} from '../enhancements/authentication';
 
 import {
     route as loginRoute, 
@@ -11,7 +11,14 @@ import {
     view as SignupView
 } from '../features/signup';
 
+import {Redirect} from 'react-router-dom';
+
 const routes = [
+    {
+        path: "/",
+        component: authenticated(() => <Redirect to="/home" />),
+        exact: true,
+    },
     {
         //login
         path: loginRoute,

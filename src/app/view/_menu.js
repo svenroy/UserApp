@@ -11,8 +11,8 @@ import {
 } from '../features/clientapp';
 
 import {
-    menu as UserDashboardMenu,
-} from '../features/user-dashboard';
+    menu as UserAppMenu,
+} from '../features/userapp';
 
 import { 
     route as signUpRoute 
@@ -44,7 +44,7 @@ const Menu = ({authenticated, handleSignOut, history, role}) => {
         </List>
     </div>;
   
-    let currentViewMenu = <UserDashboardMenu history={history} />;
+    let currentViewMenu = <UserAppMenu history={history} />;
 
     if(role === "client"){
         currentViewMenu = <ClientAppMenu history={history} />;

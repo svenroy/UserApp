@@ -5,8 +5,8 @@ import * as duck from '../state';
 import autoBind from 'react-autobind';
 import constants from '../../../../config/constants';
 
-import SignUpView from './_SignUp';
-import ConfirmationView from './_Verification';
+import SignUpView from './_signUp';
+import ConfirmationView from './_verification';
 
 class SignUpContainer extends Component {
     constructor(props){
