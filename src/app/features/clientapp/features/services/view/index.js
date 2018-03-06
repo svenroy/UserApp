@@ -9,6 +9,8 @@ import ListServicesView from './_listServices';
 import AddServiceView from './_addService';
 import LoadingIndicator from './_loadingIndicator';
 
+const route = "/services";
+
 class ClientDashboardContainer extends Component {
     constructor(props){
         super(props);
@@ -27,7 +29,7 @@ class ClientDashboardContainer extends Component {
     }
 
     handleAddClick() {
-        this.props.history.push("/services/create");
+        this.props.history.push(`${route}/create`);
     }
 
     handleChange(e){
@@ -42,7 +44,7 @@ class ClientDashboardContainer extends Component {
             serviceKey.length > 0 &&
             defaultValue.length > 0) {
             this.props.addClientService(name, serviceKey, defaultValue);
-            this.props.history.push("/services");
+            this.props.history.push(route);
         }        
     }
 
@@ -52,11 +54,11 @@ class ClientDashboardContainer extends Component {
         } else {
             return <div>
                 <Route 
-                    exact path={"/services"}
+                    exact path={route}
                     render={() => <ListServicesView {...this.props} 
                                                     handleAddClick={this.handleAddClick} />}/>
                 <Route 
-                    path={"/services/create"} 
+                    path={`${route}/create`} 
                     render={() => <AddServiceView {...this.props}
                                                 handleChange={this.handleChange}
                                                 handleSubmit={this.handleAddSubmit}
@@ -66,6 +68,7 @@ class ClientDashboardContainer extends Component {
     }
 }
 
+export { route };
 export default withRouter(connect(
     (state, ownProps) => ({...state.clientDashboard, history: ownProps.history}),
     (dispatch, ownProps) => bindActionCreators(duck.actions, dispatch)

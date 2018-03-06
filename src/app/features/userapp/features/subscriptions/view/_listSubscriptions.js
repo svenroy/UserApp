@@ -1,9 +1,8 @@
 import React from 'react';
-import {Button, Typography, Divider} from 'material-ui';
+import {Typography} from 'material-ui';
 import Card, { CardContent } from 'material-ui/Card';
 import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
-import AddIcon from 'material-ui-icons/Add';
 
 import List, { ListItem } from 'material-ui/List';
 
@@ -11,7 +10,6 @@ const styles = theme => ({
     root: {
         width: '100%',
         maxWidth: 360,
-        //backgroundColor: theme.palette.background.paper,
     },
     button: {
         margin: theme.spacing.unit,
@@ -35,25 +33,13 @@ const styles = theme => ({
     },
 });
 
-const ServicesView = ({classes, services, handleAddClick}) => {    
-    return <div>
-        <Button 
-            variant="fab" 
-            color="primary" 
-            aria-label="add" 
-            className={classes.button}
-            onClick={handleAddClick}>
-            <AddIcon />
-        </Button>
-        <br/>
-        <Divider />
-        <br/>
-        <div className={classes.root}>               
+const ServicesView = ({classes, subscriptions}) => {    
+    return <div className={classes.root}>               
             {
-                services.length > 0 
+                subscriptions.length > 0 
                 ?
                     <List>
-                        {services.map((d, index) => {
+                        {subscriptions.map((d, index) => {
                             return <div key={index}>
                                 <ListItem>
                                     <Card className={classes.card}>
@@ -61,8 +47,6 @@ const ServicesView = ({classes, services, handleAddClick}) => {
                                             <Typography variant="headline" component="h2">
                                                 {d.name}
                                             </Typography>
-                                            <Typography className={classes.pos}>{d.key}</Typography>
-                                            <Typography className={classes.pos}>{d.defaultValue}</Typography>
                                         </CardContent>
                                     </Card> 
                                 </ListItem>                                
@@ -71,8 +55,7 @@ const ServicesView = ({classes, services, handleAddClick}) => {
                     </List>
                 : <Typography>No services</Typography>
             }   
-        </div>
-    </div>;
+        </div>;
 };
 
 ServicesView.propTypes = {

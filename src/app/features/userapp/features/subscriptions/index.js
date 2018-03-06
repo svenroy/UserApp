@@ -1,9 +1,9 @@
-import view, {route} from './view';
 import createReducer from './state';
+import view, {Subscribe} from './view';
 
 export {
     view,
-    route
+    Subscribe
 };
 
 export default createReducer;

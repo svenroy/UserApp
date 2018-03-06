@@ -1,9 +1,10 @@
+import view from './view';
 import createReducer from './state';
-import view, {menu} from './view';
 
+const route = "/profile";
 export {
     view,
-    menu
+    route
 };
 
 export default createReducer;

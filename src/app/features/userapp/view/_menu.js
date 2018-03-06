@@ -9,12 +9,12 @@ import {
 const Menu = ({history}) => {
     return <div>
     <Divider />
-      <List>          
-          <ListItem button onClick={() => history.push("/services")}>
-              <ListItemText primary="My services" />
-          </ListItem>
-          <ListItem button onClick={() => history.push("/profile")}>
-              <ListItemText primary="Profile" />
+      <List>
+          <ListItem button onClick={() => history.push("/home")}>
+              <ListItemText primary="Dashboard" />
+          </ListItem>          
+          <ListItem button onClick={() => history.push("/subscriptions")}>
+              <ListItemText primary="My subscriptions" />
           </ListItem>
       </List>
   </div>;
