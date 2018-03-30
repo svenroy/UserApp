@@ -20,11 +20,11 @@ const routes = [
     },
     {
         path: servicesRoute,
-        component: authenticate(() => <ServicesView />)
+        component: authenticate(ServicesView)
     },
     {
         path: profileRoute,
-        component: authenticate(() => <ProfileView />)
+        component: authenticate(ProfileView)
     }
 ];
 

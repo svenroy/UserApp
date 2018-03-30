@@ -1,5 +1,5 @@
 import React from 'react';
-import {Typography} from 'material-ui';
+import {Typography, Checkbox, ListItemText} from 'material-ui';
 import Card, { CardContent } from 'material-ui/Card';
 import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
@@ -33,7 +33,7 @@ const styles = theme => ({
     },
 });
 
-const ServicesView = ({classes, subscriptions}) => {    
+const ServicesView = ({classes, subscriptions, handleToggle}) => {    
     return <div className={classes.root}>               
             {
                 subscriptions.length > 0 
@@ -47,6 +47,20 @@ const ServicesView = ({classes, subscriptions}) => {
                                             <Typography variant="headline" component="h2">
                                                 {d.name}
                                             </Typography>
+                                            <List>{d.services.map((e, i) => 
+                                                <ListItem
+                                                    key={i}
+                                                    role={undefined}
+                                                    dense
+                                                    button
+                                                    onClick={() => handleToggle(e)}
+                                                    className={classes.listItem}>
+                                                    <Checkbox
+                                                        checked={e.isSubscribed} 
+                                                        disableRipple />
+                                                    <ListItemText primary={e.name} />
+                                                </ListItem>)}
+                                            </List> 
                                         </CardContent>
                                     </Card> 
                                 </ListItem>                                

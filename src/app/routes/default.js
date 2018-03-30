@@ -22,13 +22,13 @@ const routes = [
     {
         //login
         path: loginRoute,
-        component: redirectIfAuthenticated(() => <LoginView />),
+        component: redirectIfAuthenticated(LoginView),
         exact: true,
     },
     {
         //signup
         path: signupRoute,
-        component: redirectIfAuthenticated(() => <SignupView />),
+        component: redirectIfAuthenticated(SignupView),
         exact: true,
     }
 ];

@@ -5,41 +5,22 @@ import { Redirect } from "react-router-dom";
 
 export default function withAuthentication(WrappedComponent) {
     const WithAuthentication = (props) => {
-        if (!props.isAuthenticated) {
+        if (!global.utils.validSession()) {
             return <Redirect to="/login" />;
         }
-
-        return (<WrappedComponent { ...props } />);
+        return (<WrappedComponent {...props} />);
     };
 
-    const { bool } = PropTypes;    
-    WithAuthentication.propTypes = {
-        isAuthenticated: bool.isRequired,
-    };
-
-    const mapStateToProps = ( state ) => ({
-        isAuthenticated: global.utils.validSession(),
-    });
-
-    return connect(mapStateToProps)(WithAuthentication);
+    return WithAuthentication;
 }
 
 export const redirectIfAuthenticated = (WrappedComponent) => {
-    const RedirectIfAuthenticated = (props) => {
-        if (props.isAuthenticated) {
+    const RedirectIfAuthenticated = () => {
+        if (global.utils.validSession()) {
             return <Redirect to="/home" />;
         }
-        return (<WrappedComponent { ...props } />);
+        return (<WrappedComponent />);
     };
 
-    const { bool } = PropTypes;    
-    RedirectIfAuthenticated.propTypes = {
-        isAuthenticated: bool.isRequired,
-    };
-
-    const mapStateToProps = (state) => ( {
-        isAuthenticated: global.utils.validSession(),
-    } );
-
-    return connect(mapStateToProps)(RedirectIfAuthenticated);
+    return RedirectIfAuthenticated;
 }

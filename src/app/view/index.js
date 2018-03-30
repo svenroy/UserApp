@@ -25,13 +25,20 @@ class App extends Component {
     render(){
         let routes = defaultRoutes;
 
-        if(this.props.authenticated){
-            if(this.props.role === constants.userRoles.client){
+        const {role, authenticated} = this.props;
+
+        if(authenticated){
+            if(role === constants.userRoles.client){
                 routes = [...defaultRoutes, ...clientAppRoutes];
-            } else if(this.props.role === constants.userRoles.user) {
+            } else if(role === constants.userRoles.user) {
                 routes = [...defaultRoutes, ...userAppRoutes];
             }
         }
+
+        routes = [...routes, {
+            path: "*",
+            render: () => <div>Not found</div>
+        }];
         
         return <MuiThemeProvider theme={theme}>
                 <Drawer menu={<Menu handleSignOut={this.handleSignOut} {...this.props} />}>

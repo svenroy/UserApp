@@ -75,3 +75,33 @@ export const subscribe = (id, services, next) => (dispatch, getState, { httpVerb
         }
     });
 };
+
+export const subscribeSingle = (serviceId) => (dispatch, getState, { httpVerbs, apiEndPoint }) => {
+    dispatch({
+        type: httpVerbs.POST,
+        url: `${apiEndPoint}/usersubscriptions/subscribe`,
+        body: serviceId,
+        success: response => {
+            if(response.status === 201) {
+                dispatch(getUserServices());
+            }           
+        },
+        failure: response => {
+        }
+    });
+};
+
+export const unsubscribeSingle = (serviceId) => (dispatch, getState, { httpVerbs, apiEndPoint }) => {
+    dispatch({
+        type: httpVerbs.POST,
+        url: `${apiEndPoint}/usersubscriptions/unsubscribe`,
+        body: serviceId,
+        success: response => {
+            if(response.status === 201) {
+                dispatch(getUserServices());
+            }             
+        },
+        failure: response => {
+        }
+    });
+};
